@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using OMSATrackingAPI.BLL.Mappers;
 using OMSATrackingAPI.DAL.Data;
 
 namespace OMSATrackingAPI.Configurations
@@ -34,10 +35,7 @@ namespace OMSATrackingAPI.Configurations
 
         private static void ConfigurateAutoMapper(this IServiceCollection services)
         {
-        }
-
-        private static void ConfigurateValidator(this IServiceCollection services)
-        {
+            services.AddAutoMapper(typeof(CustomMapper));
         }
 
         public static void AddEssetialsMiddlewares(this IServiceCollection services, IConfiguration configuration)
@@ -45,7 +43,6 @@ namespace OMSATrackingAPI.Configurations
             services.ConfigurateDbContext(configuration);
             services.ConfigurateRepositories();
             services.ConfigurateAutoMapper();
-            services.ConfigurateValidator();
             services.ConfigurateServices();
             services.ConfigurateCors();
         }

@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\OMSATrackingAPI.BLL\OMSATrackingAPI.BLL.csproj" />
     <ProjectReference Include="..\OMSATrackingAPI.DAL\OMSATrackingAPI.DAL.csproj" />
   </ItemGroup>
 
