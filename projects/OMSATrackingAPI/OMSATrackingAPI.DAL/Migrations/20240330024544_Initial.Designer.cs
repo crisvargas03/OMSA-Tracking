@@ -12,7 +12,7 @@ using OMSATrackingAPI.DAL.Data;
 namespace OMSATrackingAPI.DAL.Migrations
 {
     [DbContext(typeof(MainDbContext))]
-    [Migration("20240330010430_Initial")]
+    [Migration("20240330024544_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
