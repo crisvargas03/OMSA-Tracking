@@ -8,12 +8,14 @@
 
   <ItemGroup>
     <Folder Include="DTOs\" />
-    <Folder Include="Interfaces\" />
-    <Folder Include="Services\" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="13.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\OMSATrackingAPI.DAL\OMSATrackingAPI.DAL.csproj" />
   </ItemGroup>
 
 </Project>

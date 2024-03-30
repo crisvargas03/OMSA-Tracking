@@ -4,7 +4,7 @@ namespace OMSATrackingAPI.BLL.Utils
 {
     public class Response
     {
-        public HttpStatusCode StatusCode { get; set; }
+        public HttpStatusCode StatusCode { get; set; } = HttpStatusCode.OK;
         public bool IsSuccess { get; set; } = true;
         public List<string> ErrorMessages { get; set; } = [];
         public object? Payload { get; set; }
