@@ -11,6 +11,7 @@ namespace OMSATrackingAPI.DAL.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            modelBuilder.UseSerialColumns();
             var assembly = Assembly.GetExecutingAssembly();
             var entitiesConfigs = assembly.GetTypes()
                 .Where(t => t.Namespace == "OMSATrackingAPI.DAL.FluentConfiguration"
