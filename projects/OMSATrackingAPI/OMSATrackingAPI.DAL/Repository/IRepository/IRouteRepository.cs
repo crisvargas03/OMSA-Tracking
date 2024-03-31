@@ -5,5 +5,6 @@ namespace OMSATrackingAPI.DAL.Repository.IRepository
 {
     public interface IRouteRepository : IBaseRepository<Route>
     {
+        Task<IEnumerable<Route>> GetRoutesWithSubQueryAsync();
     }
 }

@@ -6,6 +6,5 @@ namespace OMSATrackingAPI.BLL.Interfaces
     public interface IRoutesService
     {
         Task<Response> GetAll();
-        Task<Response> Insert(Route route);
     }
 }

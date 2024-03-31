@@ -23,8 +23,9 @@ namespace OMSATrackingAPI.BLL.Services
         {
             try
             {
-                var buses = await _repository.GetAllAsync();
-                _response.Payload = _mapper.Map<List<BusDto>>(buses);
+                var buses = await _repository.GetAllAsync(tracked: false, 
+                    includes: [ x => x.Driver ]);
+                _response.Payload = _mapper.Map<IEnumerable<BusDto>>(buses);
                 return _response;
                
             }

@@ -9,6 +9,10 @@ namespace OMSATrackingAPI.BLL.Mappers
         public CustomMapper()
         {
             CreateMap<Bus, BusDto>().ReverseMap();
+
+            CreateMap<Route, RouteDto>().ReverseMap();
+
+            CreateMap<Driver, DriverDto>().ReverseMap();
         }
     }
 }
