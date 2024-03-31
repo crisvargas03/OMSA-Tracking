@@ -9,8 +9,8 @@ namespace OMSATrackingAPI.DAL.Data
         public MainDbContext(DbContextOptions<MainDbContext> options) 
             : base(options){ }
 
-        public DbSet<AppUser> Users => Set<AppUser>();
-        public DbSet<Bus> Buss => Set<Bus>();
+        public DbSet<AppUser> AppUsers => Set<AppUser>();
+        public DbSet<Bus> Buses => Set<Bus>();
         public DbSet<Driver> Drivers => Set<Driver>();
         public DbSet<FavoriteRoute> FavoriteRoutes => Set<FavoriteRoute>();
         public DbSet<Route> Route => Set<Route>();

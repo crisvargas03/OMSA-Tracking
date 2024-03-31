@@ -47,11 +47,11 @@ namespace OMSATrackingAPI.DAL.FluentConfiguration
                 Latitude = "18.486057",
                 Longitude = "-69.931212",
                 Plate = "A123456",
-                EstimatedArrivalHour = new TimeOnly(8, 0),
+                EstimatedArrivalHour = new TimeOnly(8, 0).ToShortTimeString(), // 8:00 AM
                 PassengerLimit = 30,
                 RouteId = 1001,
                 CreatedBy = "Admin",
-                CreationDate = DateTime.Now,
+                CreationDate = DateTime.UtcNow,
                 IsDeleted = false,
 
             },
@@ -62,11 +62,11 @@ namespace OMSATrackingAPI.DAL.FluentConfiguration
                 Latitude = "18.486057",
                 Longitude = "-69.931212",
                 Plate = "B123456",
-                EstimatedArrivalHour = new TimeOnly(8, 0),
+                EstimatedArrivalHour = new TimeOnly(8, 0).ToShortTimeString(), // 8:00 AM
                 PassengerLimit = 30,
                 RouteId = 1002,
                 CreatedBy = "Admin",
-                CreationDate = DateTime.Now,
+                CreationDate = DateTime.UtcNow,
                 IsDeleted = false
             });
         }

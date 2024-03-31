@@ -38,7 +38,7 @@ namespace OMSATrackingAPI.DAL.FluentConfiguration
                 Origin = "Origen 1",
                 Destination = "Destino 1",
                 CreatedBy = "Admin",
-                CreationDate = DateTime.Now,
+                CreationDate = DateTime.UtcNow,
                 IsDeleted = false
             },
             new Route
@@ -50,7 +50,7 @@ namespace OMSATrackingAPI.DAL.FluentConfiguration
                 Origin = "Origen 2",
                 Destination = "Destino 2",
                 CreatedBy = "Admin",
-                CreationDate = DateTime.Now,
+                CreationDate = DateTime.UtcNow,
                 IsDeleted = false
             });
         }

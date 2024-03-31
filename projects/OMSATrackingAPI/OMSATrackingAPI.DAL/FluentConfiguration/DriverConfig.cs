@@ -35,7 +35,7 @@ namespace OMSATrackingAPI.DAL.FluentConfiguration
                 IndentificationDocument = "123456789",
                 BusId = 1001,
                 CreatedBy = "Admin",
-                CreationDate = DateTime.Now,
+                CreationDate = DateTime.UtcNow,
                 IsDeleted = false
             },
             new Driver
@@ -46,7 +46,7 @@ namespace OMSATrackingAPI.DAL.FluentConfiguration
                 IndentificationDocument = "987654321",
                 BusId = 1002,
                 CreatedBy = "Admin",
-                CreationDate = DateTime.Now,
+                CreationDate = DateTime.UtcNow,
                 IsDeleted = false
             });
         }

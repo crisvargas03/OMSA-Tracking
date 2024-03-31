@@ -4,10 +4,12 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace OMSATrackingAPI.DAL.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class Init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -63,7 +65,7 @@ namespace OMSATrackingAPI.DAL.Migrations
                     Latitude = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     Longitude = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     Plate = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
-                    EstimatedArrivalHour = table.Column<TimeOnly>(type: "time without time zone", nullable: false),
+                    EstimatedArrivalHour = table.Column<string>(type: "text", nullable: false),
                     PassengerLimit = table.Column<int>(type: "integer", nullable: false),
                     RouteId = table.Column<int>(type: "integer", nullable: false),
                     CreatedBy = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
@@ -129,6 +131,33 @@ namespace OMSATrackingAPI.DAL.Migrations
                         column: x => x.IdBus,
                         principalTable: "Buss",
                         principalColumn: "Id");
+                });
+
+            migrationBuilder.InsertData(
+                table: "Route",
+                columns: new[] { "Id", "Address", "Code", "CreatedBy", "CreationDate", "Destination", "IsDeleted", "ModificationDate", "Name", "Origin" },
+                values: new object[,]
+                {
+                    { 1001, "Av. Maximo Gomez", "R001", "Admin", new DateTime(2024, 3, 31, 3, 2, 19, 43, DateTimeKind.Utc).AddTicks(6240), "Destino 1", false, null, "Ruta Principal", "Origen 1" },
+                    { 1002, "Corredor John F. Kennedy", "R002", "Admin", new DateTime(2024, 3, 31, 3, 2, 19, 43, DateTimeKind.Utc).AddTicks(6244), "Destino 2", false, null, "Ruta Secundaria", "Origen 2" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Buss",
+                columns: new[] { "Id", "CreatedBy", "CreationDate", "EstimatedArrivalHour", "IsDeleted", "Latitude", "Longitude", "ModificationDate", "Name", "PassengerLimit", "Plate", "RouteId" },
+                values: new object[,]
+                {
+                    { 1001, "Admin", new DateTime(2024, 3, 31, 3, 2, 19, 43, DateTimeKind.Utc).AddTicks(2129), "08:00", false, "18.486057", "-69.931212", null, "Bus 1", 30, "A123456", 1001 },
+                    { 1002, "Admin", new DateTime(2024, 3, 31, 3, 2, 19, 43, DateTimeKind.Utc).AddTicks(2135), "08:00", false, "18.486057", "-69.931212", null, "Bus 2", 30, "B123456", 1002 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Drivers",
+                columns: new[] { "Id", "BusId", "CreatedBy", "CreationDate", "IndentificationDocument", "IsDeleted", "LastName", "ModificationDate", "Name" },
+                values: new object[,]
+                {
+                    { 1001, 1001, "Admin", new DateTime(2024, 3, 31, 3, 2, 19, 43, DateTimeKind.Utc).AddTicks(3749), "123456789", false, "Driver 1", null, "Driver 1" },
+                    { 1002, 1002, "Admin", new DateTime(2024, 3, 31, 3, 2, 19, 43, DateTimeKind.Utc).AddTicks(3751), "987654321", false, "Driver 2", null, "Driver 2" }
                 });
 
             migrationBuilder.CreateIndex(
