@@ -10,7 +10,8 @@ namespace OMSATrackingAPI.DAL.FluentConfiguration
         {
             builder.HasKey(b => b.Id);
             builder.HasQueryFilter(b => !b.IsDeleted);
-            builder.Property(b => b.Id).IsRequired();
+            builder.Property(b => b.Id).IsRequired()
+                .HasIdentityOptions(startValue: 1001);
 
             builder.Property(x => x.CreatedBy).IsRequired().HasMaxLength(50);
             builder.Property(x => x.IsDeleted).IsRequired();

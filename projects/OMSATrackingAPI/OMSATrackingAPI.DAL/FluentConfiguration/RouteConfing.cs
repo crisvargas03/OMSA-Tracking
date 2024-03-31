@@ -4,13 +4,14 @@ using OMSATrackingAPI.DAL.Models;
 
 namespace OMSATrackingAPI.DAL.FluentConfiguration
 {
-    public class BouteConfing : IEntityTypeConfiguration<Route>
+    public class RouteConfing : IEntityTypeConfiguration<Route>
     {
         public void Configure(EntityTypeBuilder<Route> builder)
         {
             builder.HasKey(b => b.Id);
             builder.HasQueryFilter(b => !b.IsDeleted);
-            builder.Property(b => b.Id).IsRequired();
+            builder.Property(b => b.Id).IsRequired()
+                .HasIdentityOptions(startValue: 1001);
 
             builder.Property(x => x.CreatedBy).IsRequired().HasMaxLength(50);
             builder.Property(x => x.IsDeleted).IsRequired();

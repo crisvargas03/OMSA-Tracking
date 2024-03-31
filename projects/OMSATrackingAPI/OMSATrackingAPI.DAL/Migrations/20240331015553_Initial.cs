@@ -17,7 +17,8 @@ namespace OMSATrackingAPI.DAL.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                        .Annotation("Npgsql:IdentitySequenceOptions", "'1001', '1', '', '', 'False', '1'")
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Code = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     Address = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     Name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
@@ -34,11 +35,30 @@ namespace OMSATrackingAPI.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Bus",
+                name: "Users",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Username = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    Password = table.Column<string>(type: "character varying(25)", maxLength: 25, nullable: false),
+                    CreatedBy = table.Column<string>(type: "text", nullable: false),
+                    CreationDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    ModificationDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Users", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Buss",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:IdentitySequenceOptions", "'1001', '1', '', '', 'False', '1'")
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     Latitude = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     Longitude = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
@@ -53,20 +73,21 @@ namespace OMSATrackingAPI.DAL.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Bus", x => x.Id);
+                    table.PrimaryKey("PK_Buss", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Bus_Route_RouteId",
+                        name: "FK_Buss_Route_RouteId",
                         column: x => x.RouteId,
                         principalTable: "Route",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "Driver",
+                name: "Drivers",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                        .Annotation("Npgsql:IdentitySequenceOptions", "'1001', '1', '', '', 'False', '1'")
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     LastName = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     IndentificationDocument = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
@@ -78,20 +99,21 @@ namespace OMSATrackingAPI.DAL.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Driver", x => x.Id);
+                    table.PrimaryKey("PK_Drivers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Driver_Bus_BusId",
+                        name: "FK_Drivers_Buss_BusId",
                         column: x => x.BusId,
-                        principalTable: "Bus",
+                        principalTable: "Buss",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "FavoriteRoute",
+                name: "FavoriteRoutes",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                        .Annotation("Npgsql:IdentitySequenceOptions", "'1001', '1', '', '', 'False', '1'")
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     UserIdentificationCode = table.Column<int>(type: "integer", nullable: false),
                     IdBus = table.Column<int>(type: "integer", nullable: false),
                     CreatedBy = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
@@ -101,28 +123,28 @@ namespace OMSATrackingAPI.DAL.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_FavoriteRoute", x => x.Id);
+                    table.PrimaryKey("PK_FavoriteRoutes", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_FavoriteRoute_Bus_IdBus",
+                        name: "FK_FavoriteRoutes_Buss_IdBus",
                         column: x => x.IdBus,
-                        principalTable: "Bus",
+                        principalTable: "Buss",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Bus_RouteId",
-                table: "Bus",
+                name: "IX_Buss_RouteId",
+                table: "Buss",
                 column: "RouteId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Driver_BusId",
-                table: "Driver",
+                name: "IX_Drivers_BusId",
+                table: "Drivers",
                 column: "BusId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_FavoriteRoute_IdBus",
-                table: "FavoriteRoute",
+                name: "IX_FavoriteRoutes_IdBus",
+                table: "FavoriteRoutes",
                 column: "IdBus",
                 unique: true);
         }
@@ -131,13 +153,16 @@ namespace OMSATrackingAPI.DAL.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Driver");
+                name: "Drivers");
 
             migrationBuilder.DropTable(
-                name: "FavoriteRoute");
+                name: "FavoriteRoutes");
 
             migrationBuilder.DropTable(
-                name: "Bus");
+                name: "Users");
+
+            migrationBuilder.DropTable(
+                name: "Buss");
 
             migrationBuilder.DropTable(
                 name: "Route");
