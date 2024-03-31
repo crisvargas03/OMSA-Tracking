@@ -8,6 +8,6 @@
         public int BusId { get; set; }
 
         // Navigation properties
-        public required Bus Bus { get; set; }
+        public Bus Bus { get; set; } = null!;
     }
 }

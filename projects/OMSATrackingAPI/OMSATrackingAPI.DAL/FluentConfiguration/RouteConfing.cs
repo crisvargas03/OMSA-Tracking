@@ -27,6 +27,32 @@ namespace OMSATrackingAPI.DAL.FluentConfiguration
                 .WithOne(r => r.Route)
                 .HasForeignKey(b => b.RouteId)
                 .OnDelete(DeleteBehavior.NoAction);
+
+            builder.HasData(
+            new Route
+            {
+                Id = 1001,
+                Code = "R001",
+                Address = "Av. Maximo Gomez",
+                Name = "Ruta Principal",
+                Origin = "Origen 1",
+                Destination = "Destino 1",
+                CreatedBy = "Admin",
+                CreationDate = DateTime.Now,
+                IsDeleted = false
+            },
+            new Route
+            {
+                Id = 1002,
+                Code = "R002",
+                Address = "Corredor John F. Kennedy",
+                Name = "Ruta Secundaria",
+                Origin = "Origen 2",
+                Destination = "Destino 2",
+                CreatedBy = "Admin",
+                CreationDate = DateTime.Now,
+                IsDeleted = false
+            });
         }
     }
 }

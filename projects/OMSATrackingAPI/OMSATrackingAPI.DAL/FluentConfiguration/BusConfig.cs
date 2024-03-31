@@ -39,6 +39,36 @@ namespace OMSATrackingAPI.DAL.FluentConfiguration
                 .WithOne(f => f.Bus)
                 .HasForeignKey<FavoriteRoute>(f => f.IdBus)
                 .OnDelete(DeleteBehavior.NoAction);
+
+            builder.HasData(new Bus
+            {
+                Id = 1001,
+                Name = "Bus 1",
+                Latitude = "18.486057",
+                Longitude = "-69.931212",
+                Plate = "A123456",
+                EstimatedArrivalHour = new TimeOnly(8, 0),
+                PassengerLimit = 30,
+                RouteId = 1001,
+                CreatedBy = "Admin",
+                CreationDate = DateTime.Now,
+                IsDeleted = false,
+
+            },
+            new Bus
+            {
+                Id = 1002,
+                Name = "Bus 2",
+                Latitude = "18.486057",
+                Longitude = "-69.931212",
+                Plate = "B123456",
+                EstimatedArrivalHour = new TimeOnly(8, 0),
+                PassengerLimit = 30,
+                RouteId = 1002,
+                CreatedBy = "Admin",
+                CreationDate = DateTime.Now,
+                IsDeleted = false
+            });
         }
     }
 }

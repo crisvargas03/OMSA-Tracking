@@ -26,6 +26,29 @@ namespace OMSATrackingAPI.DAL.FluentConfiguration
                 .WithOne(r => r.Driver)
                 .HasForeignKey<Driver>(b => b.BusId)
                 .OnDelete(DeleteBehavior.NoAction);
+
+            builder.HasData(new Driver
+            {
+                Id = 1001,
+                Name = "Driver 1",
+                LastName = "Driver 1",
+                IndentificationDocument = "123456789",
+                BusId = 1001,
+                CreatedBy = "Admin",
+                CreationDate = DateTime.Now,
+                IsDeleted = false
+            },
+            new Driver
+            {
+                Id = 1002,
+                Name = "Driver 2",
+                LastName = "Driver 2",
+                IndentificationDocument = "987654321",
+                BusId = 1002,
+                CreatedBy = "Admin",
+                CreationDate = DateTime.Now,
+                IsDeleted = false
+            });
         }
     }
 }
