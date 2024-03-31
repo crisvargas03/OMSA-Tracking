@@ -4,9 +4,9 @@ using OMSATrackingAPI.DAL.Models;
 
 namespace OMSATrackingAPI.DAL.FluentConfiguration
 {
-    public class FavoriteRouteConfig : IEntityTypeConfiguration<FavoriteRoute>
+    public class AppUserConfig : IEntityTypeConfiguration<AppUser>
     {
-        public void Configure(EntityTypeBuilder<FavoriteRoute> builder)
+        public void Configure(EntityTypeBuilder<AppUser> builder)
         {
             builder.HasKey(b => b.Id);
             builder.HasQueryFilter(b => !b.IsDeleted);
@@ -17,13 +17,18 @@ namespace OMSATrackingAPI.DAL.FluentConfiguration
             builder.Property(x => x.IsDeleted).IsRequired();
             builder.Property(x => x.CreationDate).IsRequired();
 
-            builder.Property(b => b.UserIdentificationCode).IsRequired();
-            builder.Property(b => b.IdBus).IsRequired();
+            builder.Property(b => b.Username).IsRequired().HasMaxLength(50);
+            builder.Property(b => b.Password).IsRequired().HasMaxLength(50);
 
-            builder.HasOne(b => b.Bus)
-                .WithOne(r => r.FavoriteRoute)
-                .HasForeignKey<FavoriteRoute>(b => b.IdBus)
-                .OnDelete(DeleteBehavior.NoAction);
+            builder.HasData(new AppUser
+            {
+                Id = 1001,
+                Username = "Api",
+                Password = "Api12345",
+                CreatedBy = "Admin",
+                CreationDate = DateTime.UtcNow,
+                IsDeleted = false
+            });
         }
     }
 }

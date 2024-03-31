@@ -1,4 +1,6 @@
-﻿using OMSATrackingAPI.BLL.Interfaces;
+﻿using AutoMapper;
+using OMSATrackingAPI.BLL.DTOs;
+using OMSATrackingAPI.BLL.Interfaces;
 using OMSATrackingAPI.BLL.Utils;
 using OMSATrackingAPI.DAL.Repository.IRepository;
 using System.Net;
@@ -8,10 +10,12 @@ namespace OMSATrackingAPI.BLL.Services
     public class BusService : IBusService
     {
         private readonly IBusRepository _repository;
+        private readonly IMapper _mapper;
         protected Response _response;
-        public BusService(IBusRepository repository)
+        public BusService(IBusRepository repository, IMapper mapper)
         {
             _repository = repository;
+            _mapper = mapper;
             _response = new();
         }
 
@@ -19,8 +23,9 @@ namespace OMSATrackingAPI.BLL.Services
         {
             try
             {
-                var buses = await _repository.GetAllAsync();
-                _response.Payload = buses;
+                var buses = await _repository.GetAllAsync(tracked: false, 
+                    includes: [ x => x.Driver ]);
+                _response.Payload = _mapper.Map<IEnumerable<BusDto>>(buses);
                 return _response;
                
             }

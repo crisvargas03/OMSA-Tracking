@@ -1,13 +1,10 @@
-﻿namespace OMSATrackingAPI.DAL.Models
+﻿namespace OMSATrackingAPI.BLL.DTOs
 {
-    public class Driver : BaseEntity<int>
+    public class DriverDto
     {
         public string Name { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;
         public string IndentificationDocument { get; set; } = string.Empty;
         public int BusId { get; set; }
-
-        // Navigation properties
-        public Bus Bus { get; set; } = null!;
     }
 }

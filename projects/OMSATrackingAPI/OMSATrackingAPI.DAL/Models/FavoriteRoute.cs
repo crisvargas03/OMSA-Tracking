@@ -6,6 +6,6 @@
         public int IdBus { get; set; }
 
         // Navigation properties
-        public required Bus Bus { get; set; }
+        public Bus Bus { get; set; } = null!;
     }
 }

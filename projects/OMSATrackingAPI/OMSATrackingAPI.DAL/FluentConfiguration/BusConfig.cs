@@ -10,7 +10,8 @@ namespace OMSATrackingAPI.DAL.FluentConfiguration
         {
             builder.HasKey(b => b.Id);
             builder.HasQueryFilter(b => !b.IsDeleted);
-            builder.Property(b => b.Id).IsRequired();
+            builder.Property(b => b.Id).IsRequired()
+                .HasIdentityOptions(startValue: 1001);
 
             builder.Property(x => x.CreatedBy).IsRequired().HasMaxLength(50);
             builder.Property(x => x.IsDeleted).IsRequired();
@@ -38,6 +39,36 @@ namespace OMSATrackingAPI.DAL.FluentConfiguration
                 .WithOne(f => f.Bus)
                 .HasForeignKey<FavoriteRoute>(f => f.IdBus)
                 .OnDelete(DeleteBehavior.NoAction);
+
+            builder.HasData(new Bus
+            {
+                Id = 1001,
+                Name = "Bus 1",
+                Latitude = "18.486057",
+                Longitude = "-69.931212",
+                Plate = "A123456",
+                EstimatedArrivalHour = new TimeOnly(8, 0).ToShortTimeString(), // 8:00 AM
+                PassengerLimit = 30,
+                RouteId = 1001,
+                CreatedBy = "Admin",
+                CreationDate = DateTime.UtcNow,
+                IsDeleted = false,
+
+            },
+            new Bus
+            {
+                Id = 1002,
+                Name = "Bus 2",
+                Latitude = "18.486057",
+                Longitude = "-69.931212",
+                Plate = "B123456",
+                EstimatedArrivalHour = new TimeOnly(8, 0).ToShortTimeString(), // 8:00 AM
+                PassengerLimit = 30,
+                RouteId = 1002,
+                CreatedBy = "Admin",
+                CreationDate = DateTime.UtcNow,
+                IsDeleted = false
+            });
         }
     }
 }

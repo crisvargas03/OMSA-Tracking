@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OMSATrackingAPI.DAL.Data;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 
 namespace OMSATrackingAPI.DAL.Repository.Core
@@ -27,7 +28,9 @@ namespace OMSATrackingAPI.DAL.Repository.Core
             return entity;
         }
 
-        public async Task<List<T>> GetAllAsync(Expression<Func<T, bool>>? filter = null, bool tracked = true)
+        public async Task<List<T>> GetAllAsync(Expression<Func<T, bool>>? filter = null, 
+            bool tracked = true,
+            params Expression<Func<T, object>>[] includes)
         {
             IQueryable<T> query = _dbSet;
             if (!tracked)
@@ -38,10 +41,14 @@ namespace OMSATrackingAPI.DAL.Repository.Core
             {
                 query = query.Where(filter);
             }
+            
+            query = ApplyIncludes(query, includes);
             return await query.ToListAsync();
         }
 
-        public async Task<T> GetAsync(Expression<Func<T, bool>>? filter = null, bool tracked = true)
+        public async Task<T> GetAsync(Expression<Func<T, bool>>? filter = null, 
+            bool tracked = true,
+            params Expression<Func<T, object>>[] includes)
         {
             IQueryable<T> query = _dbSet;
             if (!tracked)
@@ -52,7 +59,18 @@ namespace OMSATrackingAPI.DAL.Repository.Core
             {
                 query = query.Where(filter);
             }
+            
+            query = ApplyIncludes(query, includes);
             return await query.FirstOrDefaultAsync();
+        }
+
+        private IQueryable<T> ApplyIncludes(IQueryable<T> query, params Expression<Func<T, object>>[] includes)
+        {
+            foreach (var include in includes)
+            {
+                query = query.Include(include);
+            }
+            return query;
         }
     }
 }

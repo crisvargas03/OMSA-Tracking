@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using OMSATrackingAPI.BLL.DTOs;
+using OMSATrackingAPI.DAL.Models;
 
 namespace OMSATrackingAPI.BLL.Mappers
 {
@@ -6,7 +8,11 @@ namespace OMSATrackingAPI.BLL.Mappers
     {
         public CustomMapper()
         {
+            CreateMap<Bus, BusDto>().ReverseMap();
 
+            CreateMap<Route, RouteDto>().ReverseMap();
+
+            CreateMap<Driver, DriverDto>().ReverseMap();
         }
     }
 }
