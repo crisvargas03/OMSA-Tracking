@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
           theme: theme,
           title: 'omsa_tracking_app',
           debugShowCheckedModeBanner: false,
-          initialRoute: AppRoutes.turnOnLocationScreen,
+          initialRoute: AppRoutes.appNavigationScreen,
           routes: AppRoutes.routes,
         );
       },

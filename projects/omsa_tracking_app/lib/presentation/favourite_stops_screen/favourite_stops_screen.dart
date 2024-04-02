@@ -275,7 +275,7 @@ class FavouriteStopsScreen extends StatelessWidget {
                             bottom: 2.v,
                           ),
                           child: Text(
-                            "Av. Kennedy Con Av. Maximo Gomez",
+                            "Av. Kennedy Con Av. Maximo Gomezz",
                             style: CustomTextStyles.bodySmall10,
                           ),
                         ),
@@ -410,7 +410,7 @@ class FavouriteStopsScreen extends StatelessWidget {
         ],
       ),
     );
-  }
+  } 
 
   /// Common widget
   Widget _buildStop2(

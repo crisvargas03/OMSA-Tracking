@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:omsa_tracking_app/core/app_export.dart';
+import 'package:omsa_tracking_app/presentation/favourite_stops_screen/favourite_stops_screen.dart';
+import 'package:omsa_tracking_app/presentation/maps_and_bus_time_screen/maps_and_bus_time_screen.dart';
+import 'package:omsa_tracking_app/presentation/stop_details_screen/stop_details_screen.dart';
+import 'package:omsa_tracking_app/presentation/turn_on_location_screen/turn_on_location_screen.dart';
 
 class CustomBottomBar extends StatefulWidget {
   CustomBottomBar({this.onChanged});
@@ -9,9 +13,8 @@ class CustomBottomBar extends StatefulWidget {
   @override
   CustomBottomBarState createState() => CustomBottomBarState();
 }
-
+int selectedIndex = 1;
 class CustomBottomBarState extends State<CustomBottomBar> {
-  int selectedIndex = 0;
 
   List<BottomMenuModel> bottomMenuList = [
     BottomMenuModel(
@@ -65,10 +68,33 @@ class CustomBottomBarState extends State<CustomBottomBar> {
               width: 32.adaptSize,
               color: appTheme.gray70001,
             ),
-            activeIcon: CustomImageView(
-              imagePath: bottomMenuList[index].activeIcon,
-              width: 28.h,
-              color: appTheme.gray900,
+            activeIcon: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                CustomImageView(
+                  imagePath: bottomMenuList[index].activeIcon,
+                  height: 32.adaptSize,
+                  width: 32.adaptSize,
+                  color: appTheme.gray900,
+                ),
+                Opacity(
+                  opacity: index == selectedIndex ? 1.0 : 0.0,
+                  child: Container(
+                    height: 4,
+                    width: 32.adaptSize,
+                    decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.2),
+                          spreadRadius: 2,
+                          blurRadius: 2,
+                          offset: Offset(0, 1),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
             ),
             label: '',
           );
@@ -76,7 +102,32 @@ class CustomBottomBarState extends State<CustomBottomBar> {
         onTap: (index) {
           selectedIndex = index;
           widget.onChanged?.call(bottomMenuList[index].type);
-          setState(() {});
+          setState(() {
+            // Aquí, dentro del onTap, puedes manejar la navegación.
+            switch (bottomMenuList[index].type) {
+              case BottomBarEnum.Mdiheartoutline:
+                // Navegar a la pantalla correspondiente al primer ítem.
+                // Por ejemplo:
+                Navigator.push(context, MaterialPageRoute(builder: (context) => FavouriteStopsScreen()));
+                selectedIndex = index;
+                print('El Indice es:' + selectedIndex.toString());
+                break;
+              case BottomBarEnum.Rinavigationfill:
+                // Navegar a la pantalla correspondiente al segundo ítem.
+                // Por ejemplo:
+                Navigator.push(context, MaterialPageRoute(builder: (context) => MapsAndBusTimeScreen()));
+                selectedIndex = index;
+                print('El Indice es:' + selectedIndex.toString());
+                break;
+              case BottomBarEnum.Eosiconsroute:
+                // Navegar a la pantalla correspondiente al tercer ítem.
+                // Por ejemplo:
+                Navigator.push(context, MaterialPageRoute(builder: (context) => StopDetailsScreen()));
+                selectedIndex = index;
+                print('El Indice es:' + selectedIndex.toString());
+                break;
+            }
+          });
         },
       ),
     );
