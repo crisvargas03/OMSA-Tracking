@@ -17,5 +17,13 @@ namespace OMSATrackingAPI.BLL.Utils
             ErrorMessages.Add(errors);
             return this;
         }
+
+        public Response SuccessResponse(HttpStatusCode statusCode, string message)
+        {
+            StatusCode = statusCode;
+            Payload = message;
+            IsSuccess = true;
+            return this;
+        }
     }
 }
