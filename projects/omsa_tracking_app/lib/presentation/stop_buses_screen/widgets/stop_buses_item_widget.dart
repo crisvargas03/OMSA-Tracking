@@ -1,21 +1,26 @@
+import '../../../core/app_export.dart';
+import '../models/stop_buses_item_model.dart';
 import 'package:flutter/material.dart';
-import 'package:omsa_tracking_app/core/app_export.dart';
 
 // ignore: must_be_immutable
-class StopdetailsItemWidget extends StatelessWidget {
-  const StopdetailsItemWidget({Key? key})
-      : super(
+class StopBusesItemWidget extends StatelessWidget {
+  StopBusesItemWidget(
+    this.stopBusesItemModelObj, {
+    Key? key,
+  }) : super(
           key: key,
         );
+
+  StopBusesItemModel stopBusesItemModelObj;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(
-        horizontal: 9.h,
+        horizontal: 11.h,
         vertical: 13.v,
       ),
-      decoration: AppDecoration.outlineBlack900.copyWith(
+      decoration: AppDecoration.outlineBlack.copyWith(
         borderRadius: BorderRadiusStyle.roundedBorder8,
       ),
       child: Row(
@@ -24,15 +29,15 @@ class StopdetailsItemWidget extends StatelessWidget {
           CustomImageView(
             imagePath: ImageConstant.imgCar,
             width: 14.h,
-            margin: EdgeInsets.only(left: 7.h),
+            margin: EdgeInsets.only(left: 6.h),
           ),
           Padding(
             padding: EdgeInsets.only(
-              left: 25.h,
+              left: 24.h,
               top: 2.v,
             ),
             child: Text(
-              "Bus B340M",
+              stopBusesItemModelObj.weight!,
               style: CustomTextStyles.bodySmallLight,
             ),
           ),
@@ -48,18 +53,18 @@ class StopdetailsItemWidget extends StatelessWidget {
               top: 2.v,
             ),
             child: Text(
-              "84 / 220",
+              stopBusesItemModelObj.capacity!,
               style: theme.textTheme.bodySmall,
             ),
           ),
           Padding(
             padding: EdgeInsets.only(
-              left: 15.h,
+              left: 23.h,
               top: 2.v,
             ),
             child: Text(
-              "Vencida",
-              style: CustomTextStyles.labelLargeRed400,
+              stopBusesItemModelObj.time!,
+              style: theme.textTheme.labelLarge,
             ),
           ),
         ],

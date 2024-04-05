@@ -45,9 +45,9 @@ class AppNavigationScreen extends StatelessWidget {
                         ),
                         _buildScreenTitle(
                           context,
-                          screenTitle: "Stop Details",
+                          screenTitle: "Stop Buses",
                           onTapScreenTitle: () => onTapScreenTitle(
-                              context, AppRoutes.stopDetailsScreen),
+                              context, AppRoutes.stopBusesScreen),
                         ),
                       ],
                     ),

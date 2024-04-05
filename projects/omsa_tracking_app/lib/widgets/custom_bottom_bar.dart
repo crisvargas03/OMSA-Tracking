@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:omsa_tracking_app/core/app_export.dart';
 import 'package:omsa_tracking_app/presentation/favourite_stops_screen/favourite_stops_screen.dart';
 import 'package:omsa_tracking_app/presentation/maps_and_bus_time_screen/maps_and_bus_time_screen.dart';
-import 'package:omsa_tracking_app/presentation/stop_details_screen/stop_details_screen.dart';
+import 'package:omsa_tracking_app/presentation/stop_buses_screen/stop_buses_screen.dart';
 import 'package:omsa_tracking_app/presentation/turn_on_location_screen/turn_on_location_screen.dart';
 
 class CustomBottomBar extends StatefulWidget {
@@ -122,7 +122,7 @@ class CustomBottomBarState extends State<CustomBottomBar> {
               case BottomBarEnum.Eosiconsroute:
                 // Navegar a la pantalla correspondiente al tercer ítem.
                 // Por ejemplo:
-                Navigator.push(context, MaterialPageRoute(builder: (context) => StopDetailsScreen()));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => StopBusesScreen()));
                 selectedIndex = index;
                 print('El Indice es:' + selectedIndex.toString());
                 break;

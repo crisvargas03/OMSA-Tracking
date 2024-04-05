@@ -29,7 +29,7 @@ class ImageConstant {
 
   static String imgVector = '$imagePath/img_vector.svg';
 
-  // Stop Details images
+  // Stop Buses images
   static String imgArrowLeft = '$imagePath/img_arrow_left.svg';
 
   static String imgFavorite = '$imagePath/img_favorite.svg';
