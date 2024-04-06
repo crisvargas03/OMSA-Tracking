@@ -37,7 +37,7 @@ namespace OMSATrackingAPI.BLL.Services
             }
         }
 
-        public async Task<Response> AddFavorite(FavoriteRoute favoriteRequest)
+        public async Task<Response> Add(FavoriteRoute favoriteRequest)
         {
             try
             {
@@ -55,7 +55,7 @@ namespace OMSATrackingAPI.BLL.Services
             }
         }
 
-        public async Task<Response> DeleteFavorite(int favoriteId)
+        public async Task<Response> Delete(int favoriteId)
         {
             try
             {
@@ -66,11 +66,15 @@ namespace OMSATrackingAPI.BLL.Services
                     return _response.FailedResponse(HttpStatusCode.NotFound, "Favorite not found");
                 }
 
-                await _repository.DeleteAsync(favoriteToDelete);
+                favoriteToDelete.IsDeleted = true;
+                favoriteToDelete.ModificationDate = DateTime.UtcNow;
+
+                await _repository.UpdateAsync(favoriteToDelete);
 
                 _response.Payload = _mapper.Map<FavoriteDto>(favoriteToDelete);
 
                 return _response;
+
             }
             catch (Exception ex)
             {

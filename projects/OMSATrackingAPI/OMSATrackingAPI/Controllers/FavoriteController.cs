@@ -33,7 +33,7 @@ namespace OMSATrackingAPI.Controllers
         }
 
         [HttpPost]
-        public async Task AddFavorite([FromBody] FavoriteRoute addFavoriteRequest)
+        public async Task Add([FromBody] FavoriteRoute addFavoriteRequest)
         {
             if (!ModelState.IsValid)
             {
@@ -41,13 +41,13 @@ namespace OMSATrackingAPI.Controllers
                 return;
             }
 
-            await _service.AddFavorite(addFavoriteRequest);
+            await _service.Add(addFavoriteRequest);
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Response>> DeleteFavorite(int id)
+        public async Task<ActionResult<Response>> Delete(int id)
         {
-            var response = await _service.DeleteFavorite(id);
+            var response = await _service.Delete(id);
             return StatusCode((int)response.StatusCode, response);
         }
 

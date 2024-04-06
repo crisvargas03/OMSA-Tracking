@@ -34,7 +34,7 @@ namespace OMSATrackingAPI.BLL.Services
             }
         }
 
-        public async Task<Response> AddRoute(Route routeRequest)
+        public async Task<Response> Add(Route routeRequest)
         {
             try
             {
@@ -53,7 +53,7 @@ namespace OMSATrackingAPI.BLL.Services
             }
         }
 
-        public async Task<Response> DeleteRoute(int routeId)
+        public async Task<Response> Delete(int routeId)
         {
             try
             {
@@ -64,7 +64,10 @@ namespace OMSATrackingAPI.BLL.Services
                     return _response.FailedResponse(HttpStatusCode.NotFound, "Route not found");
                 }
 
-                await _repository.DeleteAsync(routeToDelete);
+                routeToDelete.IsDeleted = true;
+                routeToDelete.ModificationDate = DateTime.UtcNow;
+
+                await _repository.UpdateAsync(routeToDelete);
 
                 _response.Payload = _mapper.Map<RouteDto>(routeToDelete);
 

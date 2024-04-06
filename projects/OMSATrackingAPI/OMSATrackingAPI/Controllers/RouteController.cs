@@ -30,7 +30,7 @@ namespace OMSATrackingAPI.Controllers
         }
 
         [HttpPost]
-        public async Task AddRoute([FromBody] DAL.Models.Route addRouteRequest)
+        public async Task Add([FromBody] DAL.Models.Route addRouteRequest)
         {
             if (!ModelState.IsValid)
             {
@@ -38,13 +38,13 @@ namespace OMSATrackingAPI.Controllers
                 return;
             }
 
-            await _service.AddRoute(addRouteRequest);
+            await _service.Add(addRouteRequest);
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Response>> DeleteRoute(int id)
+        public async Task<ActionResult<Response>> Delete(int id)
         {
-            var response = await _service.DeleteRoute(id);
+            var response = await _service.Delete(id);
             return StatusCode((int)response.StatusCode, response);
         }
     }

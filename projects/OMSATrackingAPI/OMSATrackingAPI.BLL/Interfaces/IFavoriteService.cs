@@ -7,8 +7,8 @@ namespace OMSATrackingAPI.BLL.Interfaces
     public interface IFavoriteService
     {
         Task<Response> GetAll();
-        Task<Response> AddFavorite(FavoriteRoute favoriteRequest);
-        Task<Response> DeleteFavorite(int favoriteId);
+        Task<Response> Add(FavoriteRoute favoriteRequest);
+        Task<Response> Delete(int favoriteId);
 
     }
 }

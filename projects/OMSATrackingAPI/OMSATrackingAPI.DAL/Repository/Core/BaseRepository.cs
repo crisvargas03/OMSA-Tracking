@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OMSATrackingAPI.DAL.Data;
+using OMSATrackingAPI.DAL.Models;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 
@@ -30,6 +31,11 @@ namespace OMSATrackingAPI.DAL.Repository.Core
         public async Task DeleteAsync(T entity)
         {
             _dbSet.Remove(entity);
+            await SaveAsync();
+        }
+        public async Task UpdateAsync(T entity)
+        {
+            _context.Entry(entity).State = EntityState.Modified;
             await SaveAsync();
         }
 
