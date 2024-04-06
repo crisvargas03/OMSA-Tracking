@@ -42,9 +42,17 @@ namespace OMSATrackingAPI.DAL.Repository
             throw new NotImplementedException();
         }
 
-        public Task<bool> DeleteBusAsync(int id)
+        public async Task<bool> DeleteBusAsync(int id)
         {
-            throw new NotImplementedException();
+            var busToDelete = await _context.Set<Bus>().FindAsync(id);
+            if (busToDelete != null)
+            {
+                busToDelete.IsDeleted = true; 
+                _context.Entry(busToDelete).State = EntityState.Modified;
+                return true;
+            }
+            return false;
         }
+
     }
 }

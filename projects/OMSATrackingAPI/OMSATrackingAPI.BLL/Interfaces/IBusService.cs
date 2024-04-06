@@ -8,7 +8,7 @@ namespace OMSATrackingAPI.BLL.Interfaces
         Task<Response> GetAll();
         Task<Response> GetById(int id);
         Task<Response> InsertBus(InsertBusDto busDto);
-        public Task<Response> UpdateBus(int id, UpdateBusDto busDto);
-
+        Task<Response> UpdateBus(int id, UpdateBusDto busDto);
+        Task<Response> SoftDeleteBus(int id);
     }
 }

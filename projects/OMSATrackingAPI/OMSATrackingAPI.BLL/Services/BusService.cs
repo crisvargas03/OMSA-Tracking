@@ -116,5 +116,23 @@ namespace OMSATrackingAPI.BLL.Services
             }
         }
 
+        public async Task<Response> SoftDeleteBus(int id)
+        {
+            try
+            {
+                var success = await _repository.DeleteBusAsync(id);
+                if (!success)
+                {
+                    return _response.FailedResponse(HttpStatusCode.NotFound, "El bus no fue encontrado");
+                }
+
+                return _response.SuccessResponse(HttpStatusCode.OK, "Bus eliminado correctamente.");
+            }
+            catch (Exception ex)
+            {
+                return _response.FailedResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
     }
 }
