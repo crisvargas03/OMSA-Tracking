@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.Extensions.Logging;
 using OMSATrackingAPI.BLL.DTOs;
 using OMSATrackingAPI.BLL.Interfaces;
 using OMSATrackingAPI.BLL.Utils;
@@ -8,25 +9,27 @@ using System.Net;
 
 namespace OMSATrackingAPI.BLL.Services
 {
-    public class RouteService : IRoutesService
+    public class FavoriteService : IFavoriteService
     {
-        private readonly IRouteRepository _repository;
+        private readonly IFavoriteRepository _repository;
         private readonly IMapper _mapper;
         protected Response _response;
-        public RouteService(IRouteRepository repository, IMapper mapper): base()
+        public FavoriteService(IFavoriteRepository repository, IMapper mapper)
         {
             _repository = repository;
-            _response = new();
             _mapper = mapper;
+            _response = new();
         }
 
         public async Task<Response> GetAll()
         {
             try
             {
-                var routes = await _repository.GetRoutesWithSubQueryAsync();
-                _response.Payload = _mapper.Map<IEnumerable<RouteDto>>(routes);
+                var favorites = await _repository.GetAllAsync(tracked: false,
+                    includes: [x => x.Bus]);
+                _response.Payload = _mapper.Map<IEnumerable<FavoriteDto>>(favorites);
                 return _response;
+
             }
             catch (Exception ex)
             {
@@ -34,14 +37,14 @@ namespace OMSATrackingAPI.BLL.Services
             }
         }
 
-        public async Task<Response> AddRoute(Route routeRequest)
+        public async Task<Response> AddFavorite(FavoriteRoute favoriteRequest)
         {
             try
             {
-                var routeEntity = _mapper.Map<Route>(routeRequest);
-                await _repository.AddAsync(routeEntity);
+                var favoriteEntity = _mapper.Map<FavoriteRoute>(favoriteRequest);
+                await _repository.AddAsync(favoriteEntity);
 
-                _response.Payload = _mapper.Map<RouteDto>(routeEntity);
+                _response.Payload = _mapper.Map<FavoriteDto>(favoriteEntity);
 
                 return _response;
 
@@ -49,24 +52,23 @@ namespace OMSATrackingAPI.BLL.Services
             catch (Exception ex)
             {
                 return _response.FailedResponse(HttpStatusCode.BadRequest, ex.Message);
-
             }
         }
 
-        public async Task<Response> DeleteRoute(int routeId)
+        public async Task<Response> DeleteFavorite(int favoriteId)
         {
             try
             {
-                var routeToDelete = await _repository.GetByIdAsync(routeId);
+                var favoriteToDelete = await _repository.GetByIdAsync(favoriteId);
 
-                if (routeToDelete == null)
+                if (favoriteToDelete == null)
                 {
-                    return _response.FailedResponse(HttpStatusCode.NotFound, "Route not found");
+                    return _response.FailedResponse(HttpStatusCode.NotFound, "Favorite not found");
                 }
 
-                await _repository.DeleteAsync(routeToDelete);
+                await _repository.DeleteAsync(favoriteToDelete);
 
-                _response.Payload = _mapper.Map<RouteDto>(routeToDelete);
+                _response.Payload = _mapper.Map<FavoriteDto>(favoriteToDelete);
 
                 return _response;
             }
@@ -75,5 +77,9 @@ namespace OMSATrackingAPI.BLL.Services
                 return _response.FailedResponse(HttpStatusCode.BadRequest, ex.Message);
             }
         }
+
+
+
+
     }
 }

@@ -13,6 +13,11 @@ namespace OMSATrackingAPI.BLL.Mappers
             CreateMap<Route, RouteDto>().ReverseMap();
 
             CreateMap<Driver, DriverDto>().ReverseMap();
+
+            CreateMap<FavoriteRoute, FavoriteDto>().ReverseMap();
+
+            CreateMap<FavoriteRoute, AddFavoriteRequest>();
+
         }
     }
 }

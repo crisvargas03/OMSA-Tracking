@@ -33,12 +33,14 @@ namespace OMSATrackingAPI.Configurations
         {
             services.AddScoped<IBusService, BusService>();
             services.AddScoped<IRoutesService, RouteService>();
+            services.AddScoped<IFavoriteService, FavoriteService>();
         }
 
         private static void ConfigurateRepositories(this IServiceCollection services)
         {
             services.AddScoped<IBusRepository, BusRepository>();
             services.AddScoped<IRouteRepository, RouteRepository>();
+            services.AddScoped<IFavoriteRepository, FavoriteRepository>();
         }
 
         private static void ConfigurateAutoMapper(this IServiceCollection services)

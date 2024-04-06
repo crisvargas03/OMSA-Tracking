@@ -27,6 +27,11 @@ namespace OMSATrackingAPI.DAL.Repository.Core
             await SaveAsync();
             return entity;
         }
+        public async Task DeleteAsync(T entity)
+        {
+            _dbSet.Remove(entity);
+            await SaveAsync();
+        }
 
         public async Task<List<T>> GetAllAsync(Expression<Func<T, bool>>? filter = null, 
             bool tracked = true,
@@ -62,6 +67,11 @@ namespace OMSATrackingAPI.DAL.Repository.Core
             
             query = ApplyIncludes(query, includes);
             return await query.FirstOrDefaultAsync();
+        }
+
+        public async Task<T> GetByIdAsync(int id)
+        {
+            return await _dbSet.FindAsync(id);
         }
 
         private IQueryable<T> ApplyIncludes(IQueryable<T> query, params Expression<Func<T, object>>[] includes)

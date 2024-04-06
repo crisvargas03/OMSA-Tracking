@@ -1,11 +1,11 @@
-﻿namespace OMSATrackingAPI.DAL.Models
+﻿namespace OMSATrackingAPI.BLL.DTOs
 {
-    public class FavoriteRoute : BaseEntity<int>
+    public class FavoriteDto
     {
         public int UserIdentificationCode { get; set; }
         public int IdBus { get; set; }
 
         // Navigation properties
-        public Bus? Bus { get; set; } = null!;
+        public BusDto Bus { get; set; } = null!;
     }
 }

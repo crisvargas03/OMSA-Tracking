@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using OMSATrackingAPI.BLL.DTOs;
 using OMSATrackingAPI.BLL.Interfaces;
 using OMSATrackingAPI.BLL.Utils;
 using OMSATrackingAPI.DAL.Models;
@@ -7,10 +8,11 @@ namespace OMSATrackingAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class RouteController : ControllerBase
+    public class FavoriteController : ControllerBase
     {
-        private readonly IRoutesService _service;
-        public RouteController(IRoutesService service)
+        private readonly IFavoriteService _service;
+
+        public FavoriteController(IFavoriteService service)
         {
             _service = service;
         }
@@ -21,6 +23,7 @@ namespace OMSATrackingAPI.Controllers
         public async Task<IActionResult> GetAll()
         {
             var response = await _service.GetAll();
+            
             if (response.IsSuccess)
             {
                 return Ok(response);
@@ -30,7 +33,7 @@ namespace OMSATrackingAPI.Controllers
         }
 
         [HttpPost]
-        public async Task AddRoute([FromBody] DAL.Models.Route addRouteRequest)
+        public async Task AddFavorite([FromBody] FavoriteRoute addFavoriteRequest)
         {
             if (!ModelState.IsValid)
             {
@@ -38,14 +41,15 @@ namespace OMSATrackingAPI.Controllers
                 return;
             }
 
-            await _service.AddRoute(addRouteRequest);
+            await _service.AddFavorite(addFavoriteRequest);
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Response>> DeleteRoute(int id)
+        public async Task<ActionResult<Response>> DeleteFavorite(int id)
         {
-            var response = await _service.DeleteRoute(id);
+            var response = await _service.DeleteFavorite(id);
             return StatusCode((int)response.StatusCode, response);
         }
+
     }
 }
