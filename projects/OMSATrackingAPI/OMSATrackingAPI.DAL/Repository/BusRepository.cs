@@ -37,10 +37,42 @@ namespace OMSATrackingAPI.DAL.Repository
             return await query.FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public Task<bool> UpdateBusAsync(int id, Bus updatedBus)
+        public async Task<bool> UpdateBusAsync(int id, Bus updatedBus)
         {
-            throw new NotImplementedException();
+            try
+            {
+                // Obtener el autobús existente por su ID
+                var existingBus = await _context.Set<Bus>().FindAsync(id);
+
+                // Verificar si el autobús existe
+                if (existingBus == null)
+                {
+                    return false; 
+                }
+
+                // Actualizar las propiedades del autobús existente con los valores del autobús actualizado
+                existingBus.Name = updatedBus.Name;
+                existingBus.Latitude = updatedBus.Latitude;
+                existingBus.Longitude = updatedBus.Longitude;
+                existingBus.Plate = updatedBus.Plate;
+                existingBus.EstimatedArrivalHour = updatedBus.EstimatedArrivalHour;
+                existingBus.PassengerLimit = updatedBus.PassengerLimit;
+                existingBus.RouteId = updatedBus.RouteId;
+
+                // Marcar el estado del autobús como modificado
+                _context.Entry(existingBus).State = EntityState.Modified;
+
+                // Guardar los cambios en la base de datos
+                await _context.SaveChangesAsync();
+
+                return true; 
+            }
+            catch (Exception)
+            {
+                return false; 
+            }
         }
+
 
         public async Task<bool> DeleteBusAsync(int id)
         {
@@ -49,6 +81,7 @@ namespace OMSATrackingAPI.DAL.Repository
             {
                 busToDelete.IsDeleted = true; 
                 _context.Entry(busToDelete).State = EntityState.Modified;
+                await SaveAsync();
                 return true;
             }
             return false;

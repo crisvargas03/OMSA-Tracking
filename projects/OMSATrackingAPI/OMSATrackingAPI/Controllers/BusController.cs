@@ -50,5 +50,30 @@ namespace OMSATrackingAPI.Controllers
 
             return BadRequest(response);
         }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateBus(int id, [FromBody] UpdateBusDto busDto)
+        {
+            var response = await _busService.UpdateBus(id, busDto);
+            if (response.IsSuccess)
+            {
+                return Ok(response);
+            }
+
+            return BadRequest(response);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> SoftDeleteBus(int id)
+        {
+            var response = await _busService.SoftDeleteBus(id);
+            if (response.IsSuccess)
+            {
+                return Ok(response);
+            }
+
+            return BadRequest(response);
+        }
+
     }
 }

@@ -11,7 +11,7 @@
         public BaseEntity()
         {
             CreatedBy = "API OMSA";
-            CreationDate = DateTime.Now;
+            CreationDate = DateTime.UtcNow;
             IsDeleted = false;
             
             ModificationDate = null;

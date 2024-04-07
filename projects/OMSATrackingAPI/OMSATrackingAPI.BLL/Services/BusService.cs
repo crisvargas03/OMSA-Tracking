@@ -61,19 +61,9 @@ namespace OMSATrackingAPI.BLL.Services
         public async Task<Response> InsertBus(InsertBusDto busDto)
         {
             try
-            {
-                var routeExists = await _repository.RouteExistsAsync(x => x.Id == busDto.RouteId);
-                if (routeExists)
-                {
-                    return _response.FailedResponse(HttpStatusCode.BadRequest, "La ruta especificada ya esta atada a otro bus");
-                }
-                else
-                {
-                    var bus = _mapper.Map<Bus>(busDto);
+            {       var bus = _mapper.Map<Bus>(busDto);
                     await _repository.AddAsync(bus);
-                    await _repository.SaveAsync();
                     return _response.SuccessResponse(HttpStatusCode.Created, "Bus insertado correctamente.");
-                }
             }
             catch (Exception ex)
             {
