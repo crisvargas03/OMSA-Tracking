@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using OMSATrackingAPI.BLL.DTOs;
 using OMSATrackingAPI.BLL.Interfaces;
 
 namespace OMSATrackingAPI.Controllers
@@ -24,5 +25,55 @@ namespace OMSATrackingAPI.Controllers
 
             return BadRequest(response);
         }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            var response = await _busService.GetById(id);
+            if (response.IsSuccess)
+            {
+                return Ok(response);
+            }
+
+            return NotFound(response);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> InsertBus([FromBody] InsertBusDto busDto)
+        {
+            var response = await _busService.InsertBus(busDto);
+            if (response.IsSuccess)
+            {
+                return StatusCode((int)response.StatusCode, response);
+            }
+
+            return BadRequest(response);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateBus(int id, [FromBody] UpdateBusDto busDto)
+        {
+            var response = await _busService.UpdateBus(id, busDto);
+            if (response.IsSuccess)
+            {
+                return Ok(response);
+            }
+
+            return BadRequest(response);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> SoftDeleteBus(int id)
+        {
+            var response = await _busService.SoftDeleteBus(id);
+            if (response.IsSuccess)
+            {
+                return Ok(response);
+            }
+
+            return BadRequest(response);
+        }
+
     }
 }
