@@ -28,6 +28,20 @@ namespace OMSATrackingAPI.DAL.Repository.Core
             return entity;
         }
 
+        public async Task<bool> UpdateAsync(T entity)
+        {
+            try
+            {
+                _context.Update(entity);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
         public async Task<List<T>> GetAllAsync(Expression<Func<T, bool>>? filter = null, 
             bool tracked = true,
             params Expression<Func<T, object>>[] includes)

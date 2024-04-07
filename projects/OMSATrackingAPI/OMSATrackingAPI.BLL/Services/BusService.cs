@@ -21,6 +21,7 @@ namespace OMSATrackingAPI.BLL.Services
             _response = new();
         }
 
+        #region Obtener todos los buses
         public async Task<Response> GetAll()
         {
             try
@@ -36,7 +37,9 @@ namespace OMSATrackingAPI.BLL.Services
                 return _response.FailedResponse(HttpStatusCode.BadRequest, ex.Message);
             }
         }
+        #endregion
 
+        #region Obtener bus por id
         public async Task<Response> GetById(int id)
         {
             try
@@ -56,8 +59,9 @@ namespace OMSATrackingAPI.BLL.Services
                 return _response.FailedResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
         }
+        #endregion
 
-
+        #region Insertar bus
         public async Task<Response> InsertBus(InsertBusDto busDto)
         {
             try
@@ -70,29 +74,24 @@ namespace OMSATrackingAPI.BLL.Services
                 return _response.FailedResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
         }
+        #endregion
 
+        #region Actualizar bus por id
         public async Task<Response> UpdateBus(int id, UpdateBusDto busDto)
         {
             try
             {
-                var existingBus = await _repository.GetAsync(id);
+                var existingBus = await _repository.GetAsync(x => x.Id == id);
+
                 if (existingBus == null)
                 {
                     return _response.FailedResponse(HttpStatusCode.NotFound, "El bus no fue encontrado");
                 }
 
-                existingBus.Name = busDto.Name;
-                existingBus.Latitude = busDto.Latitude;
-                existingBus.Longitude = busDto.Longitude;
-                existingBus.Plate = busDto.Plate;
-                existingBus.EstimatedArrivalHour = busDto.EstimatedArrivalHour;
-                existingBus.PassengerLimit = busDto.PassengerLimit;
-                existingBus.RouteId = busDto.RouteId;
+                _mapper.Map(busDto, existingBus);
 
-                // Esperar a que se complete la actualización
-                if (await _repository.UpdateBusAsync(id, existingBus))
+                if (await _repository.UpdateAsync(existingBus))
                 {
-                    await _repository.SaveAsync();
                     return _response.SuccessResponse(HttpStatusCode.OK, "Bus actualizado correctamente.");
                 }
                 else
@@ -105,7 +104,9 @@ namespace OMSATrackingAPI.BLL.Services
                 return _response.FailedResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
         }
+        #endregion
 
+        #region Eliminar bus
         public async Task<Response> SoftDeleteBus(int id)
         {
             try
@@ -123,6 +124,7 @@ namespace OMSATrackingAPI.BLL.Services
                 return _response.FailedResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
         }
+        #endregion
 
     }
 }

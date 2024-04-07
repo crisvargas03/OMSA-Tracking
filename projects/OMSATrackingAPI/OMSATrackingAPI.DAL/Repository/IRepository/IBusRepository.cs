@@ -8,9 +8,7 @@ namespace OMSATrackingAPI.DAL.Repository.IRepository
     {
         Task<bool> RouteExistsAsync(Expression<Func<Route, bool>> filter);
         Task SaveAsync();
-        Task<bool> UpdateBusAsync(int id, Bus updatedBus);
         Task<bool> DeleteBusAsync(int id);
-        Task<Bus> GetAsync(int id, bool tracked = true, params Expression<Func<Bus, object>>[] includes);
-
+        Task<Bus> GetByIdAsync(int id);
     }
 }
