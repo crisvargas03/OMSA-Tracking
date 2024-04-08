@@ -14,6 +14,7 @@ namespace OMSATrackingAPI.DAL.Data
         public DbSet<Driver> Drivers => Set<Driver>();
         public DbSet<FavoriteRoute> FavoriteRoutes => Set<FavoriteRoute>();
         public DbSet<Route> Route => Set<Route>();
+        public DbSet<BusStop> BusStop => Set<BusStop>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

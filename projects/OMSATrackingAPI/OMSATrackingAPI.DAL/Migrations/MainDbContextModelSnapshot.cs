@@ -64,7 +64,7 @@ namespace OMSATrackingAPI.DAL.Migrations
                         {
                             Id = 1001,
                             CreatedBy = "Admin",
-                            CreationDate = new DateTime(2024, 3, 31, 3, 8, 3, 41, DateTimeKind.Utc).AddTicks(9959),
+                            CreationDate = new DateTime(2024, 4, 8, 3, 55, 18, 742, DateTimeKind.Utc).AddTicks(1766),
                             IsDeleted = false,
                             Password = "Api12345",
                             Username = "Api"
@@ -124,41 +124,67 @@ namespace OMSATrackingAPI.DAL.Migrations
                     b.Property<int>("RouteId")
                         .HasColumnType("integer");
 
+                    b.Property<int>("StopId")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
 
                     b.HasIndex("RouteId");
 
-                    b.ToTable("Buses");
+                    b.HasIndex("StopId");
 
-                    b.HasData(
-                        new
-                        {
-                            Id = 1001,
-                            CreatedBy = "Admin",
-                            CreationDate = new DateTime(2024, 3, 31, 3, 8, 3, 43, DateTimeKind.Utc).AddTicks(5119),
-                            EstimatedArrivalHour = "08:00",
-                            IsDeleted = false,
-                            Latitude = "18.486057",
-                            Longitude = "-69.931212",
-                            Name = "Bus 1",
-                            PassengerLimit = 30,
-                            Plate = "A123456",
-                            RouteId = 1001
-                        },
-                        new
-                        {
-                            Id = 1002,
-                            CreatedBy = "Admin",
-                            CreationDate = new DateTime(2024, 3, 31, 3, 8, 3, 43, DateTimeKind.Utc).AddTicks(5125),
-                            EstimatedArrivalHour = "08:00",
-                            IsDeleted = false,
-                            Latitude = "18.486057",
-                            Longitude = "-69.931212",
-                            Name = "Bus 2",
-                            PassengerLimit = 30,
-                            Plate = "B123456",
-                            RouteId = 1002
-                        });
+                    b.ToTable("Buses");
+                });
+
+            modelBuilder.Entity("OMSATrackingAPI.DAL.Models.BusStop", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.HasIdentityOptions(b.Property<int>("Id"), 1001L, null, null, null, null, null);
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Latitude")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.Property<string>("Longitude")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.Property<DateTime?>("ModificationDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.Property<int>("Position")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("RouteId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RouteId");
+
+                    b.ToTable("BusStop");
                 });
 
             modelBuilder.Entity("OMSATrackingAPI.DAL.Models.Driver", b =>
@@ -215,7 +241,7 @@ namespace OMSATrackingAPI.DAL.Migrations
                             Id = 1001,
                             BusId = 1001,
                             CreatedBy = "Admin",
-                            CreationDate = new DateTime(2024, 3, 31, 3, 8, 3, 44, DateTimeKind.Utc).AddTicks(3477),
+                            CreationDate = new DateTime(2024, 4, 8, 3, 55, 18, 743, DateTimeKind.Utc).AddTicks(2033),
                             IndentificationDocument = "123456789",
                             IsDeleted = false,
                             LastName = "Driver 1",
@@ -226,7 +252,7 @@ namespace OMSATrackingAPI.DAL.Migrations
                             Id = 1002,
                             BusId = 1002,
                             CreatedBy = "Admin",
-                            CreationDate = new DateTime(2024, 3, 31, 3, 8, 3, 44, DateTimeKind.Utc).AddTicks(3480),
+                            CreationDate = new DateTime(2024, 4, 8, 3, 55, 18, 743, DateTimeKind.Utc).AddTicks(2037),
                             IndentificationDocument = "987654321",
                             IsDeleted = false,
                             LastName = "Driver 2",
@@ -330,7 +356,7 @@ namespace OMSATrackingAPI.DAL.Migrations
                             Address = "Av. Maximo Gomez",
                             Code = "R001",
                             CreatedBy = "Admin",
-                            CreationDate = new DateTime(2024, 3, 31, 3, 8, 3, 44, DateTimeKind.Utc).AddTicks(8493),
+                            CreationDate = new DateTime(2024, 4, 8, 3, 55, 18, 743, DateTimeKind.Utc).AddTicks(3332),
                             Destination = "Destino 1",
                             IsDeleted = false,
                             Name = "Ruta Principal",
@@ -342,7 +368,7 @@ namespace OMSATrackingAPI.DAL.Migrations
                             Address = "Corredor John F. Kennedy",
                             Code = "R002",
                             CreatedBy = "Admin",
-                            CreationDate = new DateTime(2024, 3, 31, 3, 8, 3, 44, DateTimeKind.Utc).AddTicks(8496),
+                            CreationDate = new DateTime(2024, 4, 8, 3, 55, 18, 743, DateTimeKind.Utc).AddTicks(3334),
                             Destination = "Destino 2",
                             IsDeleted = false,
                             Name = "Ruta Secundaria",
@@ -354,6 +380,25 @@ namespace OMSATrackingAPI.DAL.Migrations
                 {
                     b.HasOne("OMSATrackingAPI.DAL.Models.Route", "Route")
                         .WithMany("Buses")
+                        .HasForeignKey("RouteId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("OMSATrackingAPI.DAL.Models.BusStop", "Stop")
+                        .WithMany("Buses")
+                        .HasForeignKey("StopId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Route");
+
+                    b.Navigation("Stop");
+                });
+
+            modelBuilder.Entity("OMSATrackingAPI.DAL.Models.BusStop", b =>
+                {
+                    b.HasOne("OMSATrackingAPI.DAL.Models.Route", "Route")
+                        .WithMany()
                         .HasForeignKey("RouteId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
@@ -390,6 +435,11 @@ namespace OMSATrackingAPI.DAL.Migrations
 
                     b.Navigation("FavoriteRoute")
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("OMSATrackingAPI.DAL.Models.BusStop", b =>
+                {
+                    b.Navigation("Buses");
                 });
 
             modelBuilder.Entity("OMSATrackingAPI.DAL.Models.Route", b =>

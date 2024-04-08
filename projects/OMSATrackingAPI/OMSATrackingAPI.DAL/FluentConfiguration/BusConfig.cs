@@ -24,11 +24,17 @@ namespace OMSATrackingAPI.DAL.FluentConfiguration
             builder.Property(b => b.EstimatedArrivalHour).IsRequired();
             builder.Property(b => b.PassengerLimit).IsRequired();
             builder.Property(b => b.RouteId).IsRequired();
+            builder.Property(b => b.StopId).IsRequired();
 
             builder.HasOne(b => b.Route)
                 .WithMany(r => r.Buses)
                 .HasForeignKey(b => b.RouteId)
                 .OnDelete(DeleteBehavior.NoAction);
+
+            builder.HasOne(b => b.Stop)
+             .WithMany(r => r.Buses)
+             .HasForeignKey(b => b.StopId)
+             .OnDelete(DeleteBehavior.NoAction);
 
             builder.HasOne(b => b.Driver)
                 .WithOne(d => d.Bus)
@@ -39,36 +45,6 @@ namespace OMSATrackingAPI.DAL.FluentConfiguration
                 .WithOne(f => f.Bus)
                 .HasForeignKey<FavoriteRoute>(f => f.IdBus)
                 .OnDelete(DeleteBehavior.NoAction);
-
-            builder.HasData(new Bus
-            {
-                Id = 1001,
-                Name = "Bus 1",
-                Latitude = "18.486057",
-                Longitude = "-69.931212",
-                Plate = "A123456",
-                EstimatedArrivalHour = new TimeOnly(8, 0).ToShortTimeString(), // 8:00 AM
-                PassengerLimit = 30,
-                RouteId = 1001,
-                CreatedBy = "Admin",
-                CreationDate = DateTime.UtcNow,
-                IsDeleted = false,
-
-            },
-            new Bus
-            {
-                Id = 1002,
-                Name = "Bus 2",
-                Latitude = "18.486057",
-                Longitude = "-69.931212",
-                Plate = "B123456",
-                EstimatedArrivalHour = new TimeOnly(8, 0).ToShortTimeString(), // 8:00 AM
-                PassengerLimit = 30,
-                RouteId = 1002,
-                CreatedBy = "Admin",
-                CreationDate = DateTime.UtcNow,
-                IsDeleted = false
-            });
         }
     }
 }

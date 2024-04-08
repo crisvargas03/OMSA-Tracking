@@ -9,11 +9,30 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace OMSATrackingAPI.DAL.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class cambiosfrontend : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "AppUsers",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:IdentitySequenceOptions", "'1001', '1', '', '', 'False', '1'")
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Username = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    Password = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    CreatedBy = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    CreationDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    ModificationDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AppUsers", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Route",
                 columns: table => new
@@ -37,25 +56,34 @@ namespace OMSATrackingAPI.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Users",
+                name: "BusStop",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:IdentitySequenceOptions", "'1001', '1', '', '', 'False', '1'")
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Username = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
-                    Password = table.Column<string>(type: "character varying(25)", maxLength: 25, nullable: false),
-                    CreatedBy = table.Column<string>(type: "text", nullable: false),
+                    Name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    Latitude = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    Longitude = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    Position = table.Column<int>(type: "integer", nullable: false),
+                    RouteId = table.Column<int>(type: "integer", nullable: false),
+                    CreatedBy = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     CreationDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     ModificationDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     IsDeleted = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Users", x => x.Id);
+                    table.PrimaryKey("PK_BusStop", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_BusStop_Route_RouteId",
+                        column: x => x.RouteId,
+                        principalTable: "Route",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "Buss",
+                name: "Buses",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
@@ -68,6 +96,7 @@ namespace OMSATrackingAPI.DAL.Migrations
                     EstimatedArrivalHour = table.Column<string>(type: "text", nullable: false),
                     PassengerLimit = table.Column<int>(type: "integer", nullable: false),
                     RouteId = table.Column<int>(type: "integer", nullable: false),
+                    StopId = table.Column<int>(type: "integer", nullable: false),
                     CreatedBy = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     CreationDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     ModificationDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
@@ -75,9 +104,14 @@ namespace OMSATrackingAPI.DAL.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Buss", x => x.Id);
+                    table.PrimaryKey("PK_Buses", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Buss_Route_RouteId",
+                        name: "FK_Buses_BusStop_StopId",
+                        column: x => x.StopId,
+                        principalTable: "BusStop",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Buses_Route_RouteId",
                         column: x => x.RouteId,
                         principalTable: "Route",
                         principalColumn: "Id");
@@ -103,9 +137,9 @@ namespace OMSATrackingAPI.DAL.Migrations
                 {
                     table.PrimaryKey("PK_Drivers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Drivers_Buss_BusId",
+                        name: "FK_Drivers_Buses_BusId",
                         column: x => x.BusId,
-                        principalTable: "Buss",
+                        principalTable: "Buses",
                         principalColumn: "Id");
                 });
 
@@ -127,42 +161,39 @@ namespace OMSATrackingAPI.DAL.Migrations
                 {
                     table.PrimaryKey("PK_FavoriteRoutes", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_FavoriteRoutes_Buss_IdBus",
+                        name: "FK_FavoriteRoutes_Buses_IdBus",
                         column: x => x.IdBus,
-                        principalTable: "Buss",
+                        principalTable: "Buses",
                         principalColumn: "Id");
                 });
+
+            migrationBuilder.InsertData(
+                table: "AppUsers",
+                columns: new[] { "Id", "CreatedBy", "CreationDate", "IsDeleted", "ModificationDate", "Password", "Username" },
+                values: new object[] { 1001, "Admin", new DateTime(2024, 4, 8, 3, 55, 18, 742, DateTimeKind.Utc).AddTicks(1766), false, null, "Api12345", "Api" });
 
             migrationBuilder.InsertData(
                 table: "Route",
                 columns: new[] { "Id", "Address", "Code", "CreatedBy", "CreationDate", "Destination", "IsDeleted", "ModificationDate", "Name", "Origin" },
                 values: new object[,]
                 {
-                    { 1001, "Av. Maximo Gomez", "R001", "Admin", new DateTime(2024, 3, 31, 3, 2, 19, 43, DateTimeKind.Utc).AddTicks(6240), "Destino 1", false, null, "Ruta Principal", "Origen 1" },
-                    { 1002, "Corredor John F. Kennedy", "R002", "Admin", new DateTime(2024, 3, 31, 3, 2, 19, 43, DateTimeKind.Utc).AddTicks(6244), "Destino 2", false, null, "Ruta Secundaria", "Origen 2" }
-                });
-
-            migrationBuilder.InsertData(
-                table: "Buss",
-                columns: new[] { "Id", "CreatedBy", "CreationDate", "EstimatedArrivalHour", "IsDeleted", "Latitude", "Longitude", "ModificationDate", "Name", "PassengerLimit", "Plate", "RouteId" },
-                values: new object[,]
-                {
-                    { 1001, "Admin", new DateTime(2024, 3, 31, 3, 2, 19, 43, DateTimeKind.Utc).AddTicks(2129), "08:00", false, "18.486057", "-69.931212", null, "Bus 1", 30, "A123456", 1001 },
-                    { 1002, "Admin", new DateTime(2024, 3, 31, 3, 2, 19, 43, DateTimeKind.Utc).AddTicks(2135), "08:00", false, "18.486057", "-69.931212", null, "Bus 2", 30, "B123456", 1002 }
-                });
-
-            migrationBuilder.InsertData(
-                table: "Drivers",
-                columns: new[] { "Id", "BusId", "CreatedBy", "CreationDate", "IndentificationDocument", "IsDeleted", "LastName", "ModificationDate", "Name" },
-                values: new object[,]
-                {
-                    { 1001, 1001, "Admin", new DateTime(2024, 3, 31, 3, 2, 19, 43, DateTimeKind.Utc).AddTicks(3749), "123456789", false, "Driver 1", null, "Driver 1" },
-                    { 1002, 1002, "Admin", new DateTime(2024, 3, 31, 3, 2, 19, 43, DateTimeKind.Utc).AddTicks(3751), "987654321", false, "Driver 2", null, "Driver 2" }
+                    { 1001, "Av. Maximo Gomez", "R001", "Admin", new DateTime(2024, 4, 8, 3, 55, 18, 743, DateTimeKind.Utc).AddTicks(3332), "Destino 1", false, null, "Ruta Principal", "Origen 1" },
+                    { 1002, "Corredor John F. Kennedy", "R002", "Admin", new DateTime(2024, 4, 8, 3, 55, 18, 743, DateTimeKind.Utc).AddTicks(3334), "Destino 2", false, null, "Ruta Secundaria", "Origen 2" }
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Buss_RouteId",
-                table: "Buss",
+                name: "IX_Buses_RouteId",
+                table: "Buses",
+                column: "RouteId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Buses_StopId",
+                table: "Buses",
+                column: "StopId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BusStop_RouteId",
+                table: "BusStop",
                 column: "RouteId");
 
             migrationBuilder.CreateIndex(
@@ -182,16 +213,19 @@ namespace OMSATrackingAPI.DAL.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "AppUsers");
+
+            migrationBuilder.DropTable(
                 name: "Drivers");
 
             migrationBuilder.DropTable(
                 name: "FavoriteRoutes");
 
             migrationBuilder.DropTable(
-                name: "Users");
+                name: "Buses");
 
             migrationBuilder.DropTable(
-                name: "Buss");
+                name: "BusStop");
 
             migrationBuilder.DropTable(
                 name: "Route");
