@@ -10,7 +10,6 @@
         public string EstimatedArrivalHour { get; set; } = string.Empty;
         public int PassengerLimit { get; set; }
         public int RouteId { get; set; }
-
-        public DriverDto Driver { get; set; } = null!;
+        public int StopId { get; set; }
     }
 }

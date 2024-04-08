@@ -9,9 +9,11 @@
         public string EstimatedArrivalHour { get; set; } = string.Empty;
         public int PassengerLimit { get; set; }
         public int RouteId { get; set; }
+        public int StopId { get; set; }
 
         // Navigation properties
         public Route Route { get; set; } = null!;
+        public BusStop Stop { get; set; } = null!;
         public FavoriteRoute FavoriteRoute { get; set; } = null!;
         public Driver Driver { get; set; } = null!;
     }
