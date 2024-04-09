@@ -20,7 +20,19 @@ namespace OMSATrackingAPI.DAL.Repository
         {
             return await _context.BusStop
                 .Include(bs => bs.Route)
+                .Include(bs => bs.Buses)
                 .ToListAsync();
         }
+
+        public async Task<IEnumerable<BusStop>> GetBusStopsWithRouteAsync(string query, int busLimit)
+        {
+            return await _context.BusStop
+                .Include(bs => bs.Route)
+                .Include(bs => bs.Buses)
+                .Where(bs => bs.Name.Contains(query))
+                .Take(busLimit)
+                .ToListAsync();
+        }
+
     }
 }

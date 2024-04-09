@@ -9,5 +9,6 @@
         public string EstimatedArrivalHour { get; set; } = string.Empty;
         public int PassengerLimit { get; set; }
         public int RouteId { get; set; }
+        public int StopId { get; set; }
     }
 }

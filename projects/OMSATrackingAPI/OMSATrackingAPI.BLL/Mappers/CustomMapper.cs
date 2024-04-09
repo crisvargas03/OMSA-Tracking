@@ -17,6 +17,13 @@ namespace OMSATrackingAPI.BLL.Mappers
             CreateMap<Route, RouteDto>().ReverseMap();
 
             CreateMap<Driver, DriverDto>().ReverseMap();
+
+            CreateMap<BusStop, BusStopDto>()
+                .ForMember(dest => dest.Location, opt => opt.MapFrom(src => new LocationDto { Latitude = double.Parse(src.Latitude), Longitude = double.Parse(src.Longitude) }))
+                .ForMember(dest => dest.Position, opt => opt.MapFrom(src => src.Position))
+                .ForMember(dest => dest.RouteId, opt => opt.MapFrom(src => src.RouteId))
+                .ReverseMap();
+
         }
     }
 }

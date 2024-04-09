@@ -8,5 +8,6 @@ namespace OMSATrackingAPI.DAL.Repository.IRepository
     public interface IBusStopRepository : IBaseRepository<BusStop>
     {
         Task<IEnumerable<BusStop>> GetBusStopsWithRouteAsync();
+        Task<IEnumerable<BusStop>> GetBusStopsWithRouteAsync(string query, int busLimit);
     }
 }

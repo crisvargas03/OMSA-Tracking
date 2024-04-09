@@ -34,6 +34,44 @@ namespace OMSATrackingAPI.BLL.Services
                 return _response.FailedResponse(HttpStatusCode.BadRequest, ex.Message);
             }
         }
+
+        public async Task<Response> GetAll(string query, int busLimit)
+        {
+            try
+            {
+                var busStops = await _repository.GetBusStopsWithRouteAsync(query, busLimit); // Aplicar el límite en el repositorio
+
+                var busStopDtos = busStops.Select(bs => new BusStopDto
+                {
+                    Id = bs.Id.ToString(),
+                    Name = bs.Name,
+                    Location = new LocationDto { Latitude = double.Parse(bs.Latitude), Longitude = double.Parse(bs.Longitude) },
+                    RouteId = bs.RouteId,
+                    Position = bs.Position,
+                    Buses = bs.Buses
+                        .Select(b => new BusDto
+                        {
+                            Id = b.Id,
+                            Name = b.Name,
+                            Latitude = b.Latitude,
+                            Longitude = b.Longitude,
+                            Plate = b.Plate,
+                            EstimatedArrivalHour = b.EstimatedArrivalHour,
+                            PassengerLimit = b.PassengerLimit,
+                            RouteId = b.RouteId,
+                            StopId = b.StopId
+                        })
+                });
+
+                _response.Payload = busStopDtos;
+                return _response;
+            }
+            catch (Exception ex)
+            {
+                return _response.FailedResponse(HttpStatusCode.BadRequest, ex.Message);
+            }
+        }
+
     }
 }
 
