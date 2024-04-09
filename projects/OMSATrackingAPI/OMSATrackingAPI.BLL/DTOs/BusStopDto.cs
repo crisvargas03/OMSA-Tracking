@@ -1,18 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace OMSATrackingAPI.BLL.DTOs
+﻿namespace OMSATrackingAPI.BLL.DTOs
 {
-    internal class BusStopDto
+    public class BusStopDto
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
         public string Name { get; set; } = string.Empty;
-        public string Latitude { get; set; } = string.Empty;
-        public string Longitude { get; set; } = string.Empty;
-        public int Position { get; set; }
+        public bool IsFavorite { get; set; }
+        public LocationDto Location { get; set; }
         public int RouteId { get; set; }
+        public int Position { get; set; }
+
+        public IEnumerable<BusDto> Buses { get; set; }
+    }
+
+    public class LocationDto
+    {
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
     }
 }
