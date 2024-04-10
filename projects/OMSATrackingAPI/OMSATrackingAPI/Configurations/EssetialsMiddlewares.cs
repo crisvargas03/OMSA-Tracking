@@ -34,6 +34,7 @@ namespace OMSATrackingAPI.Configurations
             services.AddScoped<IBusService, BusService>();
             services.AddScoped<IRoutesService, RouteService>();
             services.AddScoped<IBusStopService, BusStopService>();
+            services.AddScoped<IFavoriteService, FavoriteService>();
         }
 
         private static void ConfigurateRepositories(this IServiceCollection services)
@@ -41,6 +42,7 @@ namespace OMSATrackingAPI.Configurations
             services.AddScoped<IBusRepository, BusRepository>();
             services.AddScoped<IRouteRepository, RouteRepository>();
             services.AddScoped<IBusStopRepository, BusStopRepository>();
+            services.AddScoped<IFavoriteRepository, FavoriteRepository>();
         }
 
         private static void ConfigurateAutoMapper(this IServiceCollection services)

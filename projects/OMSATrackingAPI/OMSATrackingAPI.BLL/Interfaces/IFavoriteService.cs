@@ -4,12 +4,13 @@ using OMSATrackingAPI.DAL.Models;
 
 namespace OMSATrackingAPI.BLL.Interfaces
 {
-    public interface IRoutesService
+    public interface IFavoriteService
     {
         Task<Response> GetAll();
         Task<Response> GetById(int id);
-        Task<Response> Add(Route routeRequest);
-        Task<Response> Update(int id, RouteDto favoriteDto);
-        Task<Response> Delete(int routeId);
+        Task<Response> Add(FavoriteRoute favoriteRequest);
+        Task<Response> Update(int id, FavoriteRoute favoriteDto);
+        Task<Response> Delete(int id);
+
     }
 }
