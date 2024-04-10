@@ -7,7 +7,11 @@ namespace OMSATrackingAPI.DAL.Models
         [JsonIgnore]
         public T Id { get; set; }
         public string CreatedBy { get; set; }
+
+        [JsonIgnore]
         public DateTime CreationDate { get; set; }
+
+        [JsonIgnore]
         public DateTime? ModificationDate { get; set; }
 
         [JsonIgnore]
@@ -16,7 +20,7 @@ namespace OMSATrackingAPI.DAL.Models
         public BaseEntity()
         {
             CreatedBy = "API OMSA";
-            CreationDate = DateTime.Now;
+            CreationDate = DateTime.UtcNow;
             IsDeleted = false;
             
             ModificationDate = null;

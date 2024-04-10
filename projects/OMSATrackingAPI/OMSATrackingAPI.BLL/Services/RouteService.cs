@@ -33,7 +33,28 @@ namespace OMSATrackingAPI.BLL.Services
                 return _response.FailedResponse(HttpStatusCode.BadRequest, ex.Message);
             }
         }
+        public async Task<Response> GetById(int id)
+        {
+            try
+            {
+                var favorite = await _repository.GetByIdAsync(id);
 
+                if (favorite == null)
+                {
+                    return _response.FailedResponse(HttpStatusCode.NotFound, "La ruta no fue encontrada");
+                }
+
+                _response.Payload = _mapper.Map<FavoriteDto>(favorite);
+
+                return _response;
+
+
+            }
+            catch (Exception ex)
+            {
+                return _response.FailedResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
         public async Task<Response> Add(Route routeRequest)
         {
             try
@@ -52,7 +73,35 @@ namespace OMSATrackingAPI.BLL.Services
 
             }
         }
+        public async Task<Response> Update(int id, RouteDto FavoriteRouteDto)
+        {
+            try
+            {
+                var existingRoute = await _repository.GetByIdAsync(id);
 
+                if (existingRoute == null)
+                {
+                    return _response.FailedResponse(HttpStatusCode.NotFound, "La ruta no fue encontrada");
+                }
+
+                existingRoute.Code = FavoriteRouteDto.Code;
+                existingRoute.Address = FavoriteRouteDto.Address;
+                existingRoute.Origin = FavoriteRouteDto.Origin;
+                existingRoute.Destination = FavoriteRouteDto.Destination;
+                existingRoute.ModificationDate = DateTime.UtcNow;
+
+                await _repository.UpdateAsync(existingRoute);
+
+                _response.Payload = _mapper.Map<FavoriteDto>(existingRoute);
+
+                return _response;
+
+            }
+            catch (Exception ex)
+            {
+                return _response.FailedResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
         public async Task<Response> Delete(int routeId)
         {
             try
@@ -61,7 +110,7 @@ namespace OMSATrackingAPI.BLL.Services
 
                 if (routeToDelete == null)
                 {
-                    return _response.FailedResponse(HttpStatusCode.NotFound, "Route not found");
+                    return _response.FailedResponse(HttpStatusCode.NotFound, "La ruta no fue encontrada");
                 }
 
                 routeToDelete.IsDeleted = true;
