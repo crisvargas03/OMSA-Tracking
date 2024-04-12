@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OMSATrackingAPI.BLL.DTOs;
 using OMSATrackingAPI.BLL.Interfaces;
+using OMSATrackingAPI.BLL.Services;
 using OMSATrackingAPI.BLL.Utils;
 using OMSATrackingAPI.DAL.Models;
 
@@ -8,10 +9,11 @@ namespace OMSATrackingAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class RouteController : ControllerBase
+    public class FavoriteController : ControllerBase
     {
-        private readonly IRoutesService _service;
-        public RouteController(IRoutesService service)
+        private readonly IFavoriteService _service;
+
+        public FavoriteController(IFavoriteService service)
         {
             _service = service;
         }
@@ -22,6 +24,7 @@ namespace OMSATrackingAPI.Controllers
         public async Task<IActionResult> GetAll()
         {
             var response = await _service.GetAll();
+            
             if (response.IsSuccess)
             {
                 return Ok(response);
@@ -41,29 +44,31 @@ namespace OMSATrackingAPI.Controllers
 
             return NotFound(response);
         }
-        [HttpPost]
-        public async Task Add([FromBody] DAL.Models.Route addRouteRequest)
-        {
-            if (!ModelState.IsValid)
-            {
-                Response.StatusCode = 400;
-                return;
-            }
 
-            await _service.Add(addRouteRequest);
-        }
-        
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, [FromBody] RouteDto favoriteDto)
+        [HttpPost]
+        public async Task<IActionResult> Add([FromBody] FavoriteBusStopDto addFavoriteRequest)
         {
-            var response = await _service.Update(id, favoriteDto);
+            var response = await _service.Add(addFavoriteRequest);
+
             if (response.IsSuccess)
             {
-                return Ok(response);
+                return StatusCode((int)response.StatusCode, response);
             }
 
             return BadRequest(response);
         }
+
+        //[HttpPut("{id}")]
+        //public async Task<IActionResult> Update(int id, [FromBody] FavoriteBusStopDto favoriteDto)
+        //{
+        //    var response = await _service.Update(id, favoriteDto);
+        //    if (response.IsSuccess)
+        //    {
+        //        return Ok(response);
+        //    }
+
+        //    return BadRequest(response);
+        //}
 
         [HttpDelete("{id}")]
         public async Task<ActionResult<Response>> Delete(int id)
@@ -71,5 +76,6 @@ namespace OMSATrackingAPI.Controllers
             var response = await _service.Delete(id);
             return StatusCode((int)response.StatusCode, response);
         }
+
     }
 }

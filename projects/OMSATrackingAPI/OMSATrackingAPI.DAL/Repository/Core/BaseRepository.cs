@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OMSATrackingAPI.DAL.Data;
+using OMSATrackingAPI.DAL.Models;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 
@@ -26,6 +27,11 @@ namespace OMSATrackingAPI.DAL.Repository.Core
             await _dbSet.AddAsync(entity);
             await SaveAsync();
             return entity;
+        }
+        public async Task DeleteAsync(T entity)
+        {
+            _dbSet.Remove(entity);
+            await SaveAsync();
         }
 
         public async Task<bool> UpdateAsync(T entity)
@@ -76,6 +82,11 @@ namespace OMSATrackingAPI.DAL.Repository.Core
             
             query = ApplyIncludes(query, includes);
             return await query.FirstOrDefaultAsync();
+        }
+
+        public async Task<T> GetByIdAsync(int id)
+        {
+            return await _dbSet.FindAsync(id);
         }
 
         private IQueryable<T> ApplyIncludes(IQueryable<T> query, params Expression<Func<T, object>>[] includes)

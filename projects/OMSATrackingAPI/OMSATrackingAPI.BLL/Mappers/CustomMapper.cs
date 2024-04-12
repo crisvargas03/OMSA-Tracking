@@ -24,6 +24,12 @@ namespace OMSATrackingAPI.BLL.Mappers
                 .ForMember(dest => dest.RouteId, opt => opt.MapFrom(src => src.RouteId))
                 .ReverseMap();
 
+            CreateMap<FavoriteBusStop, FavoriteBusStopDto>().ReverseMap();
+
+            CreateMap<FavoriteRoute, AddFavoriteRequest>();
+
+            CreateMap<FavoriteBusStop, AddFavoriteBusStopRequest>();
+
         }
     }
 }

@@ -11,10 +11,4 @@
 
         public IEnumerable<BusDto> Buses { get; set; }
     }
-
-    public class LocationDto
-    {
-        public double Latitude { get; set; }
-        public double Longitude { get; set; }
-    }
 }
