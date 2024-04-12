@@ -44,7 +44,7 @@ namespace OMSATrackingAPI.BLL.Services
                     return _response.FailedResponse(HttpStatusCode.NotFound, "La ruta no fue encontrada");
                 }
 
-                _response.Payload = _mapper.Map<FavoriteDto>(favorite);
+                _response.Payload = _mapper.Map<FavoriteBusStopDto>(favorite);
 
                 return _response;
 
@@ -92,7 +92,7 @@ namespace OMSATrackingAPI.BLL.Services
 
                 await _repository.UpdateAsync(existingRoute);
 
-                _response.Payload = _mapper.Map<FavoriteDto>(existingRoute);
+                _response.Payload = _mapper.Map<FavoriteBusStopDto>(existingRoute);
 
                 return _response;
 

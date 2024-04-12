@@ -26,9 +26,8 @@ namespace OMSATrackingAPI.BLL.Services
         {
             try
             {
-                var favorites = await _repository.GetAllAsync(tracked: false,
-                    includes: [x => x.Bus]);
-                _response.Payload = _mapper.Map<IEnumerable<FavoriteDto>>(favorites);
+                var favorites = await _repository.GetFavoriteBusStopsWithRouteAsync();
+                _response.Payload = _mapper.Map<IEnumerable<FavoriteBusStop>>(favorites);
                 return _response;
 
             }
@@ -45,10 +44,10 @@ namespace OMSATrackingAPI.BLL.Services
 
                 if (favorite == null)
                 {
-                    return _response.FailedResponse(HttpStatusCode.NotFound, "El bus favorito no fue encontrado");
+                    return _response.FailedResponse(HttpStatusCode.NotFound, "La Parada Favorita no fue encontrada");
                 }
 
-                _response.Payload = _mapper.Map<FavoriteDto>(favorite);
+                _response.Payload = _mapper.Map<FavoriteBusStopDto>(favorite);
 
                 return _response;
 
@@ -59,57 +58,40 @@ namespace OMSATrackingAPI.BLL.Services
                 return _response.FailedResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
         }
-
-        public async Task<Response> Add(FavoriteRoute favoriteRequest)
+        public async Task<Response> Add(FavoriteBusStopDto favoriteRequest)
         {
             try
             {
-                var favoriteEntity = _mapper.Map<FavoriteRoute>(favoriteRequest);
-                
-                var favorite = await _repository.GetByIdAsync(favoriteEntity.Id);
-
-                if (favorite is not null && favorite.IsDeleted)
-                {
-                    await _repository.AddAsync(favorite);
-                    favorite.IsDeleted = false;
-                }
-                else
-                {
-                    await _repository.AddAsync(favoriteEntity);
-                }
-
-                _response.Payload = _mapper.Map<FavoriteDto>(favoriteEntity);
-
-                return _response;
-
+                var favorite = _mapper.Map<FavoriteBusStop>(favoriteRequest);
+                await _repository.AddAsync(favorite);
+                return _response.SuccessResponse(HttpStatusCode.Created, "Parada Favorita insertada correctamente.");
             }
             catch (Exception ex)
             {
-                return _response.FailedResponse(HttpStatusCode.BadRequest, ex.Message);
+                return _response.FailedResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
         }
-
-        public async Task<Response> Update(int id, FavoriteRoute FavoriteRouteDto)
+        public async Task<Response> Update(int id, FavoriteBusStopDto FavoriteRouteDto)
         {
             try
             {
-                var existingFavorite = await _repository.GetByIdAsync(id);
+                var existingFavoriteBusStop = await _repository.GetAsync(x => x.Id == id);
 
-                if (existingFavorite == null)
+                if (existingFavoriteBusStop == null)
                 {
-                    return _response.FailedResponse(HttpStatusCode.NotFound, "El bus favorito no fue encontrado");
+                    return _response.FailedResponse(HttpStatusCode.NotFound, "Para Favorita  no fue encontrado");
                 }
 
-                existingFavorite.UserIdentificationCode = FavoriteRouteDto.UserIdentificationCode;
-                existingFavorite.IdBus = FavoriteRouteDto.IdBus;
-                existingFavorite.ModificationDate = DateTime.UtcNow;
+                _mapper.Map(FavoriteRouteDto, existingFavoriteBusStop);
 
-                await _repository.UpdateAsync(existingFavorite);
-
-                _response.Payload = _mapper.Map<FavoriteDto>(existingFavorite);
-
-                return _response;
-
+                if (await _repository.UpdateAsync(existingFavoriteBusStop))
+                {
+                    return _response.SuccessResponse(HttpStatusCode.OK, "Para Favorita actualizado correctamente.");
+                }
+                else
+                {
+                    return _response.FailedResponse(HttpStatusCode.InternalServerError, "Error al actualizar el bus.");
+                }
             }
             catch (Exception ex)
             {
@@ -125,7 +107,7 @@ namespace OMSATrackingAPI.BLL.Services
 
                 if (favoriteToDelete == null)
                 {
-                    return _response.FailedResponse(HttpStatusCode.NotFound, "El bus favorito no fue encontrado");
+                    return _response.FailedResponse(HttpStatusCode.NotFound, "La parada favorita no fue encontrada");
                 }
 
                 favoriteToDelete.IsDeleted = true;
@@ -133,7 +115,7 @@ namespace OMSATrackingAPI.BLL.Services
 
                 await _repository.UpdateAsync(favoriteToDelete);
 
-                _response.Payload = _mapper.Map<FavoriteDto>(favoriteToDelete);
+                _response.Payload = _mapper.Map<FavoriteBusStopDto>(favoriteToDelete);
 
                 return _response;
 

@@ -33,11 +33,6 @@ namespace OMSATrackingAPI.DAL.Repository.Core
             _dbSet.Remove(entity);
             await SaveAsync();
         }
-        public async Task UpdateAsync(T entity)
-        {
-            _context.Entry(entity).State = EntityState.Modified;
-            await SaveAsync();
-        }
 
         public async Task<bool> UpdateAsync(T entity)
         {

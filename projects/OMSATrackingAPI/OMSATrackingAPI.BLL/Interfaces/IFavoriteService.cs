@@ -8,8 +8,8 @@ namespace OMSATrackingAPI.BLL.Interfaces
     {
         Task<Response> GetAll();
         Task<Response> GetById(int id);
-        Task<Response> Add(FavoriteRoute favoriteRequest);
-        Task<Response> Update(int id, FavoriteRoute favoriteDto);
+        Task<Response> Add(FavoriteBusStopDto favoriteRequest);
+        Task<Response> Update(int id, FavoriteBusStopDto favoriteDto);
         Task<Response> Delete(int id);
 
     }
